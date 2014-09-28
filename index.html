@@ -22,15 +22,22 @@
 	<p>
 	<label for="login">Height</label>
 	<input type="text" name="height" size="3" autofocus
+	onpaste="setBmi()"
+	onblur="setBmi()"
+
+
 	onclick="remSubUnit();
 		 setBmi();" 
- 	onblur="setBmi()"
-	onchange="setBmi()"
-	onpaste="setBmi()"
+
+	onchange="
+   		jumpToWeight(event);
+  		setBmi();"
+
 	onKeyUp="setHeightUnit();
  		 deleteTwo(event);
 		 setHeightUnitEmbedded(event);
 		 setHeightSubUnitEmbedded(event);
+ 		 setMetric();
 		 jumpToWeight(event);"
  	>
 	<span id="heightUnitGauge"></span>

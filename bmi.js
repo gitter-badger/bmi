@@ -7,6 +7,7 @@ var const_magic = 703.06957964
 var height_m;
 var weight_kg;
 
+var enter = 13;
 var backspace = 8;
 var heightUnit = "m"; /* "m", "f" */
 var weightUnit = "k"; /* "k", "p", stone? */
@@ -42,13 +43,24 @@ function are2of3numbers(weight,height,bmi) {
 		return a ^ b ? c : a
 }
 
+function isFirstDigitFeet(digit) {
+
+	if (2 < digit && digit < 9 ) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
 function setMetric() {
 
 	var feet = height.value.slice(0,1);
 	var inches = height.value.slice(2).replace("'","") 
-
+	
 	inches += 12 * feet;
-	height_m = inches * 2.54 / 100;
+
+	height_m = inches * 2.54;
 }
 
 
@@ -90,34 +102,13 @@ function setWeight() {
 }
 
 function jumpToWeight(event) {
-	if (isInchesDone()
+	
+	if ( isInchesDone(event)
 		       && event.keyCode != backspace ) {
- 		 setMetric();
 		weight.focus();
 	}
 }
 
-function guessHeightUnit(input) {
-
-	switch (true) {
-		case input <= 2.72: 
-			return m;
-		case input <= 9:
-			return f;
-		case input <= 272:
-			return cm; 
-	}
-}
-
-function isFirstDigitFeet(digit) {
-
-	if (2 < digit && digit < 9 ) {
-		return true;
-	} else {
-		return false;
-	}
-
-}
 
 function setHeightUnit() {
 
@@ -131,32 +122,19 @@ function setHeightUnit() {
 }
 
 
-
-
-function setHeightUnitGauge() {
-
-	if (heightUnit == "f") {
-		heightUnitGauge.innerHTML = "feet";
-	} else {
-		heightUnitGauge.innerHTML = "cm";
-	}
-}
-
-
-function isInchesDone() {
+function isInchesDone(event) {
 	
 	var inches = height.value.replace("'","").substring(2);
 	
-
-	if ( (inches == "0") 
-		|| ( 1 < inches && inches < 12 ) ){
-		return true;
-	} else {
-		return false;
+	switch(true) {
+		case inches == "0":
+		case (1 < inches && inches < 12):
+		case event.keyCode == enter:
+			return true;
+	 	default:
+			return false;
 	}
 }
-
-
 
 function setHeightUnitEmbedded(event) {
 
@@ -169,10 +147,13 @@ function setHeightUnitEmbedded(event) {
 
 function setHeightSubUnitEmbedded(event) {
 
-	if (heightUnit == "f"
-		        && isInchesDone()
-			&& event.keyCode != backspace ) {
-		height.value += "'";
+	var inchesEmpty = height.value.substring(2) == "";
+
+	if (heightUnit == "f" 
+		&& isInchesDone(event)
+	       	&& event.keyCode != backspace 
+		&& !inchesEmpty) {
+			height.value += "'";
 	}
 }
 
