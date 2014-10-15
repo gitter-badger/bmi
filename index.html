@@ -40,7 +40,6 @@
  		 setMetric();
 		 jumpToWeight(event);"
  	>
-	<span id="heightUnitGauge"></span>
 	</p>
 	<br /><br />
 
@@ -48,11 +47,12 @@
 	<p>
 	<label for="login">Weight</label>
        	<input type="text" name="weight" size="3"
-	onclick="setBmi()" 
-	onblur="setBmi()" 
-	onchange="setBmi()" 
-	onpaste="setBmi()"> 
-	<span id="weightUnitGauge"></span>
+	onclick="setBmi();" 
+	onblur="setBmi();" 
+	onchange="setMetric();
+ 	   	  setBmi();" 
+ 	onkeyup="setBmi();"
+	onpaste="setBmi();"> 
 	</p>
 
 	<p>

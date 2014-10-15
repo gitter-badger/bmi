@@ -9,7 +9,7 @@ var weight_kg;
 
 var enter = 13;
 var backspace = 8;
-var heightUnit = "m"; /* "m", "f" */
+var heightUnit = "cm"; /* "cm", "m", "f" */
 var weightUnit = "k"; /* "k", "p", stone? */
 
 /*
@@ -54,24 +54,35 @@ function isFirstDigitFeet(digit) {
 }
 
 function setMetric() {
+	
+	if (heightUnit == "m") {
 
-	var feet = height.value.slice(0,1);
-	var inches = height.value.slice(2).replace("'","") 
+	height_m = +height.value.slice(0,3);
+	weight_kg = +weight.value;
+
+	} else if (heightUnit == "cm") {
+	height_m = +height.value.slice(0,3)/100;
+	weight_kg = +weight.value;
+	} else {
+
+	var feet = +height.value.slice(0,1);
+	var inches = +height.value.slice(2).replace("'",""); 
 	
 	inches += 12 * feet;
 
-	height_m = inches * 2.54;
+	height_m = inches * 2.54 / 100;
+	weight_kg = +weight.value;
+	}
 }
 
 
 function getHeightSqr() {
-	
 
 	var heightSqr;
 	
 	/* make sure height is a number */
-	if (isNumber(height.value)) {
-		heightSqr = Math.pow(height.value/100,2);
+	if (isNumber(height_m)) {
+		heightSqr = Math.pow(height_m,2);
 	} else {
 		heightSqr = NaN;
 	}
@@ -81,7 +92,7 @@ function getHeightSqr() {
 
 function setBmi() {
 
-	var weightL = weight.value;
+	var weightL = weight_kg;
         var heightSqr = getHeightSqr();
 
 	if (isNumber(heightSqr) && isNumber(weightL)) { 
@@ -103,29 +114,39 @@ function setWeight() {
 
 function jumpToWeight(event) {
 	
-	if ( isInchesDone(event)
-		       && event.keyCode != backspace ) {
+	if ( (isInchesDone(event)
+		|| isMeterDone(event)
+	        )
+		&& event.keyCode != backspace ) {
 		weight.focus();
 	}
 }
 
+function isMeterDone(event) {
 
-function setHeightUnit() {
+	var m = +height.value.replace("m","").replace("c","");
+	if (heightUnit = "m") {
+		m *= 100
+	}
 
-	if (height.value.length == 1) {
-		if ( isFirstDigitFeet(height.value) ) {
-			heightUnit = "f";
-		} else {
-			heightUnit = "m";		
-		}
+	if (( event.keyCode == enter || height.value.length >= 4) && 10 < m && m < 300 ) {
+		return true;
+	} else {
+		return false;
 	}
 }
+
+
 
 
 function isInchesDone(event) {
 	
 	var inches = height.value.replace("'","").substring(2);
-	
+
+	if (heightUnit != "f") {
+		return false;
+	}
+
 	switch(true) {
 		case inches == "0":
 		case (1 < inches && inches < 12):
@@ -136,12 +157,35 @@ function isInchesDone(event) {
 	}
 }
 
+function setHeightUnit() {
+
+	if (height.value.length == 1) {
+		if ( isFirstDigitFeet(height.value) ) {
+			heightUnit = "f";
+			return;
+		} 
+	} else if ( height.value.slice(1,2) == "."
+				|| height.value.slice(1,2) == ",") {
+			heightUnit = "m";
+			return;
+	} else {
+		heightUnit = "cm";
+		return;
+			
+	}
+}
+
 function setHeightUnitEmbedded(event) {
 
 	if (height.value.length == 1
 		       	&& heightUnit == "f"
 			&& event.keyCode != backspace) {
 		height.value += '"';
+	} else if (heightUnit == "m" && (height.value.length > 3 || event.keyCode == enter) ) {
+		height.value += 'm';
+
+	} else if (heightUnit == "cm" && height.value.length == 3) {
+		height.value += 'cm';
 	}
 }
 
@@ -154,7 +198,7 @@ function setHeightSubUnitEmbedded(event) {
 	       	&& event.keyCode != backspace 
 		&& !inchesEmpty) {
 			height.value += "'";
-	}
+	} 
 }
 
 function deleteTwo(event) {
