@@ -15,66 +15,62 @@
 </head>
 
 <body>
-	<h1>BMI to weight</h1>
+	<h1> <img src="img/top.png"></h1>
 <form name="bmiForm" class="login">
 
 
 	<p>
-	<label for="login">Height</label>
-	<input type="text" name="height" size="3" autofocus
-	onpaste="setBmi()"
-	onblur="setBmi()"
-
-
-	onclick="remSubUnit();
-		 setBmi();" 
+	<label for="login"><img src="img/heigth.png"></label>
+	<input name="height" type="text" autofocus
+	onblur="setBmi()" 
 
 	onchange="
    		jumpToWeight(event);
   		setBmi();"
+
+
+	onclick="remSubUnit();
+		 setBmi();"
 
 	onKeyUp="setHeightUnit();
  		 deleteTwo(event);
 		 setHeightUnitEmbedded(event);
 		 setHeightSubUnitEmbedded(event);
  		 setMetric();
-		 jumpToWeight(event);"
+		 jumpToWeight(event);" value="Height" size="3"
+	onpaste="setBmi()"
  	>
 	</p>
-	<br /><br />
-
+<br>
 
 	<p>
-	<label for="login">Weight</label>
-       	<input type="text" name="weight" size="3"
-	onclick="setBmi();" 
+	<label for="login"><img src="img/weight.png"></label>
+       	<input name="weight" type="text" 
 	onblur="setBmi();" 
 	onchange="setMetric();
- 	   	  setBmi();" 
- 	onkeyup="setBmi();"
+ 	   	  setBmi();"
+	onclick="setBmi();" 
+ 	onkeyup="setBmi();" value="Weight" size="3"
 	onpaste="setBmi();"> 
 	</p>
-
-	<p>
-	<label for="login">BMI</label>
-	<input type="text" name="bmi" size="3" 
-	onclick="setWeight()" 
+<br>
+  <p>
+	<label for="login"><img src="img/bmi.png"></label>
+	<input name="bmi" type="text" 
 	onblur="setWeight()" 
 	onchange="setWeight()" 
+	onclick="setWeight()" value="BMI" size="3" 
 	onpaste="setWeight()"
-	></p><br />
-
-	<p>Normal weight is defined as having a BMI between 18.5 and
-	25. </p>
-	<p>
-	Try typing your desired BMI and hit enter to calculate the
-	corresponding weight. </p>
+	>
+  </p><p style="font-size:10px">Type your desired BMI and hit enter to calculate the corresponding weight.  </p>
+  <br>
+  <p align="center"><img src="img/imgdown.png" width="315" height="251"></p>
 
 
 
 
-	<div class="about">Theme: Thibaut Courouble, Tortillas: Verónica
-		Martínez, Javascript: Einar Rasmussen</div>
+	<div class="about">Tortillas: Verónica
+		Martínez, Javascript: Mi alma Rasmussen</div>
 	
 </form>
 </body>
